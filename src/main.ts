@@ -35,7 +35,7 @@ async function generateEmbeddings({
   const refreshDate = new Date()
 
   const ignoredFiles = ['pages/404.mdx']
-  const ignoredDirectories = ['docs/'] // Add the directories to be ignored here
+  const ignoredDirectories = ['scraped-docs/'] // Add the directories to be ignored here
 
   const embeddingSources = (await walk(docsRootPath))
     .filter(({path}) => /\.mdx?$/.test(path))
