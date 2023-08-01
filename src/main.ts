@@ -35,15 +35,10 @@ async function generateEmbeddings({
   const refreshDate = new Date()
 
   const ignoredFiles = ['pages/404.mdx']
-  const ignoredDirectories = ['docs/'] // Add the directories to be ignored here
 
   const embeddingSources = (await walk(docsRootPath))
     .filter(({path}) => /\.mdx?$/.test(path))
-    .filter(
-      ({path}) =>
-        !ignoredFiles.includes(path) &&
-        !ignoredDirectories.some(dir => path.includes(dir))
-    )
+    .filter(({path}) => !ignoredFiles.includes(path))
     .map(entry => new MarkdownSource('markdown', entry.path))
 
   console.log(`Discovered ${embeddingSources.length} pages`)
@@ -259,11 +254,19 @@ async function generateEmbeddings({
 
   console.log(`Removing old pages and their sections`)
 
+  const {data: docPages} = await supabaseClient
+    .from('page')
+    .select('id')
+    .filter('path', 'like', 'docs/%')
+
+  const docPageIds = docPages.map(page => page.id)
+
   // Delete pages that have been removed (and their sections via cascade)
   const {error: deletePageError} = await supabaseClient
     .from('page')
     .delete()
     .filter('version', 'neq', refreshVersion)
+    .not('id', 'in', docPageIds)
 
   if (deletePageError) {
     throw deletePageError
