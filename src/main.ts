@@ -42,7 +42,7 @@ async function generateEmbeddings({
     .filter(
       ({path}) =>
         !ignoredFiles.includes(path) &&
-        !ignoredDirectories.some(dir => path.startsWith(dir))
+        !ignoredDirectories.some(dir => path.includes(dir))
     )
     .map(entry => new MarkdownSource('markdown', entry.path))
 
