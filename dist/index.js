@@ -58662,9 +58662,11 @@ function generateEmbeddings({ shouldRefresh = false, supabaseUrl, supabaseServic
         const refreshVersion = v4();
         const refreshDate = new Date();
         const ignoredFiles = ['pages/404.mdx'];
+        const ignoredDirectories = ['docs/']; // Add the directories to be ignored here
         const embeddingSources = (yield walk(docsRootPath))
             .filter(({ path }) => /\.mdx?$/.test(path))
-            .filter(({ path }) => !ignoredFiles.includes(path))
+            .filter(({ path }) => !ignoredFiles.includes(path) &&
+            !ignoredDirectories.some(dir => path.startsWith(dir)))
             .map(entry => new MarkdownSource('markdown', entry.path));
         console.log(`Discovered ${embeddingSources.length} pages`);
         if (!shouldRefresh) {
