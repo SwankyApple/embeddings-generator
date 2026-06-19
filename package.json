@@ -24,7 +24,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0",
+    "@actions/core": "^1.11.1",
     "@supabase/supabase-js": "^2.22.0",
     "github-slugger": "^2.0.0",
     "mdast": "^3.0.0",
@@ -36,7 +36,7 @@
     "openai": "^3.2.1",
     "unist-builder": "^3.0.1",
     "unist-util-filter": "^4.0.1",
-    "uuid": "^9.0.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@types/estree": "^1.0.1",
